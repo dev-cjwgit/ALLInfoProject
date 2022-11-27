@@ -6,7 +6,7 @@ import com.allinfo.model.domain.param.LoginDTO;
 import java.util.Map;
 
 public interface UserService {
-    UserDTO join(UserDTO userDto);
+    UserDTO signup(UserDTO userDto);
 
     Map<String, Object>  login(LoginDTO loginDto);
 

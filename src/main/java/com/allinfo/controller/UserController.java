@@ -7,7 +7,6 @@ import com.allinfo.model.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -29,9 +28,9 @@ public class UserController {
 
     @ApiOperation(value = "회원가입", notes = "req_data : [id, pw, email, name, nickname]")
     @PostMapping("/join")
-    public ResponseEntity<?> join(@RequestBody @Validated(ValidationGroups.signup.class) UserDTO userDTO) {
+    public ResponseEntity<?> signup(@RequestBody @Validated(ValidationGroups.signup.class) UserDTO userDTO) {
         try {
-            UserDTO savedUser = userService.join(userDTO);
+            UserDTO savedUser = userService.signup(userDTO);
 
             return new ResponseEntity<Object>(new HashMap<String, Object>() {{
                 put("result", true);

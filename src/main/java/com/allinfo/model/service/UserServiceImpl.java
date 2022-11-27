@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public UserDTO join(UserDTO userDTO) {
+    public UserDTO signup(UserDTO userDTO) {
         if (userMapper.findUserById(userDTO.getId()).isPresent()) {
             throw new RuntimeException("이미 가입된 유저입니다");
         }
