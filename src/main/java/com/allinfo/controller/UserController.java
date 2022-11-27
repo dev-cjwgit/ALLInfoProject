@@ -1,5 +1,6 @@
 package com.allinfo.controller;
 
+import com.allinfo.annotation.ValidationGroups;
 import com.allinfo.model.domain.UserDTO;
 import com.allinfo.model.domain.param.LoginDTO;
 import com.allinfo.model.service.UserService;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +29,7 @@ public class UserController {
 
     @ApiOperation(value = "회원가입", notes = "req_data : [id, pw, email, name, nickname]")
     @PostMapping("/join")
-    public ResponseEntity<?> join(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> join(@RequestBody @Validated(ValidationGroups.signup.class) UserDTO userDTO) {
         try {
             UserDTO savedUser = userService.join(userDTO);
 
@@ -69,7 +71,7 @@ public class UserController {
     public ResponseEntity<?> refreshToken(@RequestBody Long uid, HttpServletRequest request)
             throws Exception {
         HttpStatus status = HttpStatus.ACCEPTED;
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader("refresh-token");
         String result = userService.refreshToken(uid, token);
         if (result != null && !result.equals("")) {
             // 발급 성공

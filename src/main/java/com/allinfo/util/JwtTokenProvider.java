@@ -53,7 +53,7 @@ public class JwtTokenProvider {
 
     // JWT 토큰 생성
     public String createToken(Long userId, List<String> roles) {
-        return create(userId, roles, 1000 * 10 * 10);
+        return create(userId, roles, 1000 * 5);
 //        return create(userId, roles, 1000 * 10 * tokenValidMinutes);
     }
 

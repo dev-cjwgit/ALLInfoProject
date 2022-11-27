@@ -9,6 +9,8 @@ import java.util.Collection;
 @Data
 public class UserDTO implements UserDetails {
     protected Long uid;
+
+
     protected String email;
     protected String id;
     protected String pw;
