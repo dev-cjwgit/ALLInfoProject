@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.allinfo.model.mapper.UserMapper">
-    <select id="findUserById" parameterType="string" resultType="User">
+    <select id="findUserById" parameterType="string" resultType="UserDTO">
         SELECT `uid`,
                `email`,
                `id`,
@@ -16,7 +16,7 @@
         WHERE `id` = #{id}
     </select>
 
-    <select id="findUserByEmail" parameterType="string" resultType="User">
+    <select id="findUserByEmail" parameterType="string" resultType="UserDTO">
         SELECT `uid`,
                `email`,
                `id`,
@@ -28,7 +28,7 @@
         WHERE `email` = #{email}
     </select>
 
-    <select id="findUserByUid" parameterType="long" resultType="User">
+    <select id="findUserByUid" parameterType="long" resultType="UserDTO">
         SELECT `uid`,
                `email`,
                `id`,
@@ -40,7 +40,7 @@
         WHERE `uid` = #{uid}
     </select>
 
-    <insert id="join" parameterType="User">
+    <insert id="join" parameterType="UserDTO">
         INSERT INTO user (`email`, `id`, `pw`, `name`, `nickname`)
         VALUES (#{email}, #{id}, #{pw}, #{name}, #{nickname})
     </insert>

@@ -1,6 +1,6 @@
 package com.allinfo.model.service;
 
-import com.allinfo.model.domain.User;
+import com.allinfo.model.domain.UserDTO;
 import com.allinfo.model.domain.param.LoginDTO;
 import com.allinfo.model.mapper.UserMapper;
 import com.allinfo.util.JwtTokenProvider;
@@ -22,20 +22,20 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User join(User user) {
-        if (userMapper.findUserByUserId(user.getUsername()).isPresent()) {
+    public UserDTO join(UserDTO userDTO) {
+        if (userMapper.findUserById(userDTO.getId()).isPresent()) {
             throw new RuntimeException("이미 가입된 유저입니다");
         }
 
-        user.setPw(passwordEncoder.encode(user.getPassword()));
-        userMapper.join(user);
+        userDTO.setPw(passwordEncoder.encode(userDTO.getPassword()));
+        userMapper.join(userDTO);
 
-        return userMapper.findUserById(user.getUsername()).get();
+        return userMapper.findUserById(userDTO.getUsername()).get();
     }
 
     @Override
     public String login(LoginDTO loginDto) {
-        User userDto = userMapper.findUserById(loginDto.getId())
+        UserDTO userDto = userMapper.findUserById(loginDto.getId())
                 .orElseThrow(() -> new RuntimeException("잘못된 아이디입니다"));
 
         if (!passwordEncoder.matches(loginDto.getPw(), userDto.getPassword())) {
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUserId(Long userId) {
+    public UserDTO findByUserId(Long userId) {
         return null;
     }
 }

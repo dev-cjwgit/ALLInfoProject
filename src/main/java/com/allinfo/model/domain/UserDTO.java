@@ -7,14 +7,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 @Data
-public class User implements UserDetails {
-    private Long uid;
-    private String email;
-    private String id;
-    private String pw;
-    private String name;
-    private String nickname;
-    private String role;
+public class UserDTO implements UserDetails {
+    protected Long uid;
+    protected String email;
+    protected String id;
+    protected String pw;
+    protected String name;
+    protected String nickname;
+    protected String role;
 
     // 이하 코드는 security 를 위한 용도
     private Collection<? extends GrantedAuthority> authorities;
