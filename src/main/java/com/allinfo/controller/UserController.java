@@ -46,7 +46,7 @@ public class UserController {
 
     @ApiOperation(value = "로그인", notes = "req_data : [id, pw]")
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDTO user) {
+    public ResponseEntity<?> login(@RequestBody @Validated(ValidationGroups.login.class) LoginDTO user) {
         try {
             Map<String, Object> token = userService.login(user);
             return new ResponseEntity<Object>(new HashMap<String, Object>() {{
