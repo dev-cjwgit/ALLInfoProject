@@ -16,4 +16,6 @@ public interface UserMapper {
     Optional<UserDTO> findUserById(String id);
 
     void join(UserDTO userDTO);
+
+    void setRefreshToken(UserDTO userDTO);
 }

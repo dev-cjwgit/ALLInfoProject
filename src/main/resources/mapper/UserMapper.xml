@@ -11,6 +11,7 @@
                `pw`,
                `name`,
                `nickname`,
+               `refresh_token`,
                `role`
         FROM user
         WHERE `id` = #{id}
@@ -23,6 +24,7 @@
                `pw`,
                `name`,
                `nickname`,
+               `refresh_token`,
                `role`
         FROM user
         WHERE `email` = #{email}
@@ -35,6 +37,7 @@
                `pw`,
                `name`,
                `nickname`,
+               `refresh_token`,
                `role`
         FROM user
         WHERE `uid` = #{uid}
@@ -44,4 +47,10 @@
         INSERT INTO user (`email`, `id`, `pw`, `name`, `nickname`)
         VALUES (#{email}, #{id}, #{pw}, #{name}, #{nickname})
     </insert>
+
+    <update id="setRefreshToken" parameterType="UserDTO">
+        UPDATE user
+        SET `refresh_token` = #{refresh_token}
+        WHERE `uid` = #{uid};
+    </update>
 </mapper>

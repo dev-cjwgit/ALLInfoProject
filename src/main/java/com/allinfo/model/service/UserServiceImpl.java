@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,19 +37,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(LoginDTO loginDto) {
+    public Map<String, String> login(LoginDTO loginDto) {
         UserDTO userDto = userMapper.findUserById(loginDto.getId())
                 .orElseThrow(() -> new RuntimeException("잘못된 아이디입니다"));
 
         if (!passwordEncoder.matches(loginDto.getPw(), userDto.getPassword())) {
             throw new RuntimeException("잘못된 비밀번호입니다");
         }
-
-        return jwtTokenProvider.createToken(userDto.getUid(), Collections.singletonList(userDto.getRole()));
+        String accessToken = jwtTokenProvider.createToken(userDto.getUid(), Collections.singletonList(userDto.getRole()));
+        String refreshToken = jwtTokenProvider.createRefresh(userDto.getUid(), Collections.singletonList(userDto.getRole()));
+        userDto.setRefresh_token(refreshToken);
+        userMapper.setRefreshToken(userDto);
+        return new HashMap<String, String>() {{
+            put("access-token", accessToken);
+            put("refresh-token", refreshToken);
+        }};
     }
 
     @Override
     public UserDTO findByUserId(Long userId) {
         return null;
+    }
+
+    @Override
+    public String refreshToken(Long uid, String token) {
+        Optional<UserDTO> object = userMapper.findUserByUid(uid);
+        if (object.isPresent()) {
+            UserDTO userDTO = object.get();
+            if (token.equals(userDTO.getRefresh_token())) {
+                if (jwtTokenProvider.validateToken(token))
+                    return jwtTokenProvider.createToken(userDTO.getUid(), Collections.singletonList(userDTO.getRole()));
+                else
+                    throw new RuntimeException("리프레시 토큰 정보가 만료되었습니다.");
+            } else {
+                throw new RuntimeException("리프레시 토큰 정보가 일치하지 않습니다.");
+            }
+        } else {
+            throw new RuntimeException("유저 정보가 존재하지 않습니다.");
+        }
     }
 }

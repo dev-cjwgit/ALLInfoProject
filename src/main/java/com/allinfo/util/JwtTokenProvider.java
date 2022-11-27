@@ -21,23 +21,24 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
+    private final UserDetailsService userDetailsService;
+    private final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     @Value("${jwt.secret}")
     private String secretKey;
 
-    @Value("${jwt.token-validity-in-seconds}")
-    private long tokenValidMillisecond;
+    @Value("${jwt.token-validity-in-minutes}")
+    private long tokenValidMinutes;
 
-    private final UserDetailsService userDetailsService;
-    private final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
+    @Value("${jwt.refresh-validity-in-minutes}")
+    private long refreshValidMinutes;
 
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes()); // SecretKey Base64로 인코딩
     }
 
-    // JWT 토큰 생성
-    public String createToken(Long userId, List<String> roles) {
+    public String create(Long userId, List<String> roles, long expire) {
         Claims claims = Jwts.claims().setSubject(Long.toString(userId));
         claims.put("roles", roles);
         Date now = new Date();
@@ -45,9 +46,18 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenValidMillisecond)) // 토큰 만료일 설정
+                .setExpiration(new Date(now.getTime() + expire)) // 토큰 만료일 설정
                 .signWith(SignatureAlgorithm.HS256, secretKey) // 암호화
                 .compact();
+    }
+
+    // JWT 토큰 생성
+    public String createToken(Long userId, List<String> roles) {
+        return create(userId, roles, 1000 * 10 * tokenValidMinutes);
+    }
+
+    public String createRefresh(Long userId, List<String> roles) {
+        return create(userId, roles, 1000 * 10 * refreshValidMinutes);
     }
 
     // JWT 토큰에서 인증 정보 조회

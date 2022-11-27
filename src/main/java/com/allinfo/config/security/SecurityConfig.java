@@ -39,7 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/*/login", "/*/join").permitAll()
+                .antMatchers(
+                        "/user/login",
+                        "/user/join",
+                        "/user/refresh")
+                .permitAll()
                 .anyRequest().hasRole("USER")
 
                 .and()
@@ -55,6 +59,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**","/swagger-ui/**"); // swagger 관련 요청은 허용
+                .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**", "/swagger-ui/**"); // swagger 관련 요청은 허용
     }
 }
