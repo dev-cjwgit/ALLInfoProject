@@ -53,11 +53,13 @@ public class JwtTokenProvider {
 
     // JWT 토큰 생성
     public String createToken(Long userId, List<String> roles) {
-        return create(userId, roles, 1000 * 10 * tokenValidMinutes);
+        return create(userId, roles, 1000 * 10 * 10);
+//        return create(userId, roles, 1000 * 10 * tokenValidMinutes);
     }
 
     public String createRefresh(Long userId, List<String> roles) {
-        return create(userId, roles, 1000 * 10 * refreshValidMinutes);
+        return create(userId, roles, 1000 * 10 * 60);
+//        return create(userId, roles, 1000 * 10 * refreshValidMinutes);
     }
 
     // JWT 토큰에서 인증 정보 조회

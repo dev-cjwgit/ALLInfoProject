@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, String> login(LoginDTO loginDto) {
+    public Map<String, Object> login(LoginDTO loginDto) {
         UserDTO userDto = userMapper.findUserById(loginDto.getId())
                 .orElseThrow(() -> new RuntimeException("잘못된 아이디입니다"));
 
@@ -48,9 +48,10 @@ public class UserServiceImpl implements UserService {
         String refreshToken = jwtTokenProvider.createRefresh(userDto.getUid(), Collections.singletonList(userDto.getRole()));
         userDto.setRefresh_token(refreshToken);
         userMapper.setRefreshToken(userDto);
-        return new HashMap<String, String>() {{
+        return new HashMap<String, Object>() {{
             put("access-token", accessToken);
             put("refresh-token", refreshToken);
+            put("uid", userDto.getUid());
         }};
     }
 

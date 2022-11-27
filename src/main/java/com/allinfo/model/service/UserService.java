@@ -8,7 +8,7 @@ import java.util.Map;
 public interface UserService {
     UserDTO join(UserDTO userDto);
 
-    Map<String, String>  login(LoginDTO loginDto);
+    Map<String, Object>  login(LoginDTO loginDto);
 
     UserDTO findByUserId(Long userId);
 

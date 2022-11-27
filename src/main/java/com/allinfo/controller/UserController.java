@@ -47,12 +47,13 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO user) {
         try {
-            Map<String, String> token = userService.login(user);
+            Map<String, Object> token = userService.login(user);
             return new ResponseEntity<Object>(new HashMap<String, Object>() {{
                 put("result", true);
                 put("msg", "로그인을 성공하였습니다.");
                 put("access-token", token.get("access-token"));
                 put("refresh-token", token.get("refresh-token"));
+                put("uid", token.get("uid"));
             }}, HttpStatus.OK);
 
         } catch (RuntimeException exception) {
