@@ -47,7 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/user/signup",
                         "/user/refresh",
                         "/user/mail",
-                        "/user/check/**")
+                        "/user/check/**",
+                        "/axios/**")
                 .permitAll()
                 .anyRequest().hasRole("USER")
 

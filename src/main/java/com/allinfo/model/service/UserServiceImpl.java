@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
         if (userMapper.findUserByEmail(userDTO.getEmail()).isPresent()) {
             // 이미 존재하는 이메일
-            throw new BaseException(ErrorMessage.EXIST_ID);
+            throw new BaseException(ErrorMessage.EXIST_EMAIL);
         }
 
         userDTO.setPw(passwordEncoder.encode(userDTO.getPassword()));
