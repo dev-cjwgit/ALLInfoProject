@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
         BaseException baseException = new BaseException(ErrorMessage.VALIDATION_FAIL_EXCEPTION);
         List<ObjectError> messageList = null;
         if (e != null)
-            messageList = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors();
+            messageList = e.getBindingResult().getAllErrors();
         else
             messageList = ((org.springframework.validation.BindingResult) e).getAllErrors();
         for (int i = 0; i < messageList.size(); i++) {

@@ -1,5 +1,7 @@
 package com.allinfo.model.service;
 
+import com.allinfo.exception.BaseException;
+import com.allinfo.exception.ErrorMessage;
 import com.allinfo.model.domain.UserDTO;
 import com.allinfo.model.domain.param.LoginDTO;
 import com.allinfo.model.mapper.UserMapper;
@@ -25,7 +27,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO signup(UserDTO userDTO) {
         if (userMapper.findUserById(userDTO.getId()).isPresent()) {
-            throw new RuntimeException("이미 가입된 유저입니다");
+            throw new BaseException(ErrorMessage.EXIST_ID);
         }
 
         userDTO.setPw(passwordEncoder.encode(userDTO.getPassword()));
@@ -47,7 +49,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("잘못된 아이디입니다"));
 
         if (!passwordEncoder.matches(loginDto.getPw(), userDto.getPassword())) {
-            throw new RuntimeException("잘못된 비밀번호입니다");
+            throw new BaseException(ErrorMessage.NOT_PASSWORD);
         }
         String accessToken = jwtTokenProvider.createToken(userDto.getUid(), Collections.singletonList(userDto.getRole()));
         String refreshToken = jwtTokenProvider.createRefresh(userDto.getUid(), Collections.singletonList(userDto.getRole()));
@@ -74,12 +76,12 @@ public class UserServiceImpl implements UserService {
                 if (jwtTokenProvider.validateToken(token))
                     return jwtTokenProvider.createToken(userDTO.getUid(), Collections.singletonList(userDTO.getRole()));
                 else
-                    throw new RuntimeException("리프레시 토큰 정보가 만료되었습니다.");
+                    throw new BaseException(ErrorMessage.ACCESS_TOKEN_EXPIRE);
             } else {
-                throw new RuntimeException("리프레시 토큰 정보가 일치하지 않습니다.");
+                throw new BaseException(ErrorMessage.REFRESH_TOKEN_NOT_MATCH);
             }
         } else {
-            throw new RuntimeException("유저 정보가 존재하지 않습니다.");
+            throw new BaseException(ErrorMessage.NOT_USER_INFO);
         }
     }
 }

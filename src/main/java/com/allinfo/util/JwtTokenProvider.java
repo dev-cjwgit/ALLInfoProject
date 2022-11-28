@@ -124,16 +124,16 @@ public class JwtTokenProvider {
     private Long getUid(String token) throws RuntimeException {
         try {
             if (token.chars().filter(c -> c == '.').count() != 2)
-                throw new RuntimeException("옳바르지 않은 토큰 구조입니다.");
+                throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID);
 
-            Map<String, Object> map;
+            Map<?, ?> map;
             map = new ObjectMapper().readValue(Base64.getDecoder().decode(token.split("\\.")[1]), Map.class);
             if (map.get("sub") == null)
-                throw new RuntimeException("옳바르지 않은 정보입니다.");
+                throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID_PAYLOADS);
 
             return Long.parseLong(map.get("sub").toString());
         } catch (JsonParseException ex) {
-            throw new RuntimeException("옳바르지 않은 정보입니다.");
+            throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID_STRUCT);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
