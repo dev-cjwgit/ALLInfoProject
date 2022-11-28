@@ -27,7 +27,7 @@ public class UserController {
     private final UserService userService;
 
     @ApiOperation(value = "회원가입", notes = "req_data : [id, pw, email, name, nickname]")
-    @PostMapping("/join")
+    @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody @Validated(ValidationGroups.signup.class) UserDTO userDTO) {
 
         UserDTO savedUser = userService.signup(userDTO);
