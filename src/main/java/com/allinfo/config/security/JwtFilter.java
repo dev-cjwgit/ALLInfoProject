@@ -1,5 +1,6 @@
 package com.allinfo.config.security;
 
+import com.allinfo.exception.BaseException;
 import com.allinfo.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -26,13 +27,16 @@ public class JwtFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
         String requestURI = ((HttpServletRequest) request).getRequestURI();
-
-        if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            logger.info("Security context에 인증 정보를 저장했습니다, uri: {}", requestURI);
-        } else {
-            logger.debug("유효한 Jwt 토큰이 없습니다, uri: {}", requestURI);
+        try {
+            if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
+                Authentication authentication = jwtTokenProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                logger.info("Security context에 인증 정보를 저장했습니다, uri: {}", requestURI);
+            } else {
+                logger.debug("유효한 Jwt 토큰이 없습니다, uri: {}", requestURI);
+            }
+        } catch (BaseException e) {
+            logger.info(e.getErrorMessage().toString());
         }
 
         chain.doFilter(request, response);
