@@ -8,19 +8,21 @@ import java.util.Optional;
 
 @Mapper
 public interface UserMapper {
-    Optional<UserDTO> findUserByUserEmail(String email);
+    Optional<UserDTO> findUserByUserEmail(String email) throws Exception;
 
-    Optional<UserDTO> findUserByUserId(String id);
+    Optional<UserDTO> findUserByUserId(String id) throws Exception;
 
     Optional<UserDTO> findUserByUid(Long uid);
 
-    Optional<UserDTO> findUserById(String id);
+    Optional<UserDTO> findUserById(String id) throws Exception;
 
-    void signup(UserDTO userDTO);
+    void signup(UserDTO userDTO) throws Exception;
 
-    void setRefreshToken(UserDTO userDTO);
+    void setRefreshToken(UserDTO userDTO) throws Exception;
 
-    void setSalt(@Param(value = "uid") Long uid, @Param(value = "salt") String salt);
+    void setSalt(@Param(value = "uid") Long uid, @Param(value = "salt") String salt) throws Exception;
 
     String getSalt(Long uid);
+
+    void checkEmail(Long uid)  throws Exception;
 }

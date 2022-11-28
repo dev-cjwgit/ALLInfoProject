@@ -5,18 +5,21 @@ import com.allinfo.exception.ErrorMessage;
 import com.allinfo.model.domain.UserDTO;
 import com.allinfo.model.domain.param.LoginDTO;
 import com.allinfo.model.mapper.UserMapper;
+import com.allinfo.util.EmailHandler;
 import com.allinfo.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    private final EmailHandler emailHandler;
     private final UserMapper userMapper;
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -25,8 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public UserDTO signup(UserDTO userDTO) {
+    public UserDTO signup(UserDTO userDTO) throws Exception {
         if (userMapper.findUserById(userDTO.getId()).isPresent()) {
+            // 이미 존재하는 아이디
             throw new BaseException(ErrorMessage.EXIST_ID);
         }
 
@@ -44,10 +48,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, Object> login(LoginDTO loginDto) {
+    public Map<String, Object> login(LoginDTO loginDto) throws Exception {
         UserDTO userDto = userMapper.findUserById(loginDto.getId())
-                .orElseThrow(() -> new RuntimeException("잘못된 아이디입니다"));
+                .orElseThrow(() -> new BaseException(ErrorMessage.NOT_EXIST_ID));
 
+        if (userDto.getLevel() == 0) {
+            throw new BaseException(ErrorMessage.SIGNUP_LISTEN);
+        }
         if (!passwordEncoder.matches(loginDto.getPw(), userDto.getPassword())) {
             throw new BaseException(ErrorMessage.NOT_PASSWORD);
         }
@@ -63,12 +70,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findByUserId(Long userId) {
+    public UserDTO findByUserId(Long userId) throws Exception {
         return null;
     }
 
     @Override
-    public String refreshToken(Long uid, String token) {
+    public String refreshToken(Long uid, String token) throws Exception {
         Optional<UserDTO> object = userMapper.findUserByUid(uid);
         if (object.isPresent()) {
             UserDTO userDTO = object.get();
@@ -82,6 +89,34 @@ public class UserServiceImpl implements UserService {
             }
         } else {
             throw new BaseException(ErrorMessage.NOT_USER_INFO);
+        }
+    }
+
+    @Override
+    public void sendSignupEmail(UserDTO user) throws Exception {
+        String token = jwtTokenProvider.create(user.getUid(), Collections.singletonList(user.getRole()), 1000 * 60 * 30);
+        emailHandler.sendMail(user.getEmail(), "이메일입니다", "<h1>이메일 인증 회원가입이예요</h1><a href='http://183.97.128.216:9999/user/check/" + token + "'>여기를 눌러 인증해주세요.</a>", true);
+    }
+
+    @Override
+    public void resendCheckMail(LoginDTO loginDTO) throws Exception {
+        UserDTO user = userMapper.findUserById(loginDTO.getId())
+                .orElseThrow(() -> new BaseException(ErrorMessage.NOT_EXIST_ID));
+
+        if (passwordEncoder.matches(loginDTO.getPw(), user.getPassword())) {
+            sendSignupEmail(user);
+        } else {
+            throw new BaseException(ErrorMessage.NOT_PASSWORD);
+        }
+    }
+
+    @Override
+    public void checkEmail(String token) throws Exception {
+        if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
+            Long uid = Long.parseLong(jwtTokenProvider.getUserId(token));
+            userMapper.checkEmail(uid);
+        } else {
+            throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID);
         }
     }
 }

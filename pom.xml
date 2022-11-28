@@ -94,6 +94,19 @@
             <artifactId>spring-boot-starter-validation</artifactId>
             <version>2.5.6</version>
         </dependency>
+
+        <!-- javax.mail/mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+
+        <!-- spring boot mail -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -37,7 +37,7 @@ public class UserDTO implements UserDetails {
     protected String name;
 
     @NotNull(groups = {ValidationGroups.signup.class}, message = "별명은 공백일 수 없습니다.")
-    @Size(min = 3, max = 30, groups = {ValidationGroups.signup.class}, message = "별명은 2글자이상 20글자 이하입니다.")
+    @Size(min = 2, max = 30, groups = {ValidationGroups.signup.class}, message = "별명은 2글자이상 20글자 이하입니다.")
     @Pattern(regexp = "^[a-zA-Z가-힣0-9]{1,20}$", groups = {ValidationGroups.signup.class}, message = "별명은 특수문자와 초성은 사용불가능합니다")
     protected String nickname;
 
@@ -49,6 +49,9 @@ public class UserDTO implements UserDetails {
 
     @ApiModelProperty(hidden = true)
     protected String salt;
+
+    @ApiModelProperty(hidden = true)
+    protected Short level;
 
     // 이하 코드는 security 를 위한 용도
     @ApiModelProperty(hidden = true)

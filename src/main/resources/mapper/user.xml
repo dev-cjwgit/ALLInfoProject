@@ -13,7 +13,8 @@
                `nickname`,
                `refresh_token`,
                `role`,
-               `salt`
+               `salt`,
+               `level`
         FROM user
         WHERE `id` = #{id}
     </select>
@@ -27,7 +28,9 @@
                `nickname`,
                `refresh_token`,
                `role`,
-               `salt`
+               `salt`,
+               `level`
+
         FROM user
         WHERE `email` = #{email}
     </select>
@@ -41,7 +44,8 @@
                `nickname`,
                `refresh_token`,
                `role`,
-               `salt`
+               `salt`,
+               `level`
         FROM user
         WHERE `uid` = #{uid}
     </select>
@@ -71,4 +75,10 @@
         FROM user
         WHERE uid = #{uid};
     </select>
+
+    <update id="checkEmail" parameterType="long">
+        UPDATE user
+        SET `level` = 1
+        WHERE `uid` = #{uid};
+    </update>
 </mapper>

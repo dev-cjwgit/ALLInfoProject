@@ -45,7 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/user/login",
                         "/user/signup",
-                        "/user/refresh")
+                        "/user/refresh",
+                        "/user/mail",
+                        "/user/check/**")
                 .permitAll()
                 .anyRequest().hasRole("USER")
 
