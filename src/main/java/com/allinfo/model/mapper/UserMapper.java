@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Mapper
 public interface UserMapper {
-    Optional<UserDTO> findUserByUserEmail(String email) throws Exception;
+    Optional<UserDTO> findUserByEmail(String email) throws Exception;
 
     Optional<UserDTO> findUserByUserId(String id) throws Exception;
 
