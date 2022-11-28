@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(BaseException.class)
-    public ResponseEntity<?> validationHandler(BaseException e) {
+    public ResponseEntity<?> baseHandler(BaseException e) {
         Map<String, Object> result = new HashMap<>();
         if (e.getErrorCode() != 0) {
             result.put("result", false);

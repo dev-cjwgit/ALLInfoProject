@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void sendSignupEmail(UserDTO user) throws Exception {
         String token = jwtTokenProvider.create(user.getUid(), Collections.singletonList(user.getRole()), 1000 * 60 * 30);
-        emailHandler.sendMail(user.getEmail(), "이메일입니다", "<h1>이메일 인증 회원가입이예요</h1><a href='http://183.97.128.216:9999/user/check/" + token + "'>여기를 눌러 인증해주세요.</a>", true);
+        emailHandler.sendMail(user.getEmail(), "이메일입니다", "<h1>이메일 인증 회원가입이예요</h1><a href='http://183.97.128.216/check?token=" + token + "'>여기를 눌러 인증해주세요.</a>", true);
     }
 
     @Override
