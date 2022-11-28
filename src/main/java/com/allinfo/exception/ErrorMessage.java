@@ -21,6 +21,8 @@ public enum ErrorMessage {
     EXIST_EMAIL(201, "이미 가입된 이메일입니다.", HttpStatus.BAD_REQUEST),
     EXIST_ID(202, "이미 가입된 아이디입니다.", HttpStatus.BAD_REQUEST),
 
+    EXIST_CHECK_MAIL(250, "이미 인증된 이메일입니다.", HttpStatus.BAD_REQUEST),
+
     NOT_TIMESTAMP(205, "탈퇴 후 재 가입은 24시간이 넘어서 가능합니다.", HttpStatus.BAD_REQUEST),
     NOT_USER_INFO(300, "유저정보가 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
 

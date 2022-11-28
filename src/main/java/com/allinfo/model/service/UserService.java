@@ -10,7 +10,6 @@ public interface UserService {
 
     Map<String, Object> login(LoginDTO loginDto) throws Exception;
 
-    UserDTO findByUserId(Long userId) throws Exception;
 
     String refreshToken(Long uid, String token) throws Exception;
 

@@ -70,11 +70,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findByUserId(Long userId) throws Exception {
-        return null;
-    }
-
-    @Override
     public String refreshToken(Long uid, String token) throws Exception {
         Optional<UserDTO> object = userMapper.findUserByUid(uid);
         if (object.isPresent()) {
@@ -94,8 +89,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void sendSignupEmail(UserDTO user) throws Exception {
+        user = userMapper.findUserById(user.getId()).get();
+        if (user.getLevel() != 0)
+            throw new BaseException(ErrorMessage.EXIST_CHECK_MAIL);
         String token = jwtTokenProvider.create(user.getUid(), Collections.singletonList(user.getRole()), 1000 * 60 * 30);
-        emailHandler.sendMail(user.getEmail(), "이메일입니다", "<h1>이메일 인증 회원가입이예요</h1><a href='http://183.97.128.216/check?token=" + token + "'>여기를 눌러 인증해주세요.</a>", true);
+        emailHandler.sendMail(user.getEmail(), "Comunit 이메일 인증입니다.", "<h1>Comunit 이메일 인증 회원가입이예요</h1><a href='http://183.97.128.216/check?token=" + token + "'>여기를 눌러 인증해주세요.</a>", true);
     }
 
     @Override
@@ -114,6 +112,9 @@ public class UserServiceImpl implements UserService {
     public void checkEmail(String token) throws Exception {
         if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
             Long uid = Long.parseLong(jwtTokenProvider.getUserId(token));
+            UserDTO user = userMapper.findUserByUid(uid).get();
+            if (user.getLevel() != 0)
+                throw new BaseException(ErrorMessage.EXIST_CHECK_MAIL);
             userMapper.checkEmail(uid);
         } else {
             throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID);
