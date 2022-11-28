@@ -50,6 +50,21 @@
         WHERE `uid` = #{uid}
     </select>
 
+    <select id="findUserByNickname" parameterType="string" resultType="UserDTO">
+        SELECT `uid`,
+               `email`,
+               `id`,
+               `pw`,
+               `name`,
+               `nickname`,
+               `refresh_token`,
+               `role`,
+               `salt`,
+               `level`
+        FROM user
+        WHERE `nickname` = #{nickname}
+    </select>
+
     <insert id="signup" parameterType="UserDTO">
         INSERT INTO user (`email`, `id`, `pw`, `name`, `nickname`)
         VALUES (#{email}, #{id}, #{pw}, #{name}, #{nickname})

@@ -15,7 +15,9 @@ public class AxiosServiceImpl implements AxiosService {
     public Boolean signupRules(String keyword, String word) throws Exception {
         switch (keyword) {
             case "id":
-            case "email": {
+            case "email":
+            case "nickname":
+            {
                 return axiosMapper.signupRules(keyword, word) > 0;
             }
         }

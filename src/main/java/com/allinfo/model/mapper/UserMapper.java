@@ -25,4 +25,6 @@ public interface UserMapper {
     String getSalt(Long uid);
 
     void checkEmail(Long uid)  throws Exception;
+
+    Optional<UserDTO> findUserByNickname(String nickname);
 }

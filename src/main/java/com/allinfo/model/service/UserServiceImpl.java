@@ -34,6 +34,10 @@ public class UserServiceImpl implements UserService {
             throw new BaseException(ErrorMessage.EXIST_ID);
         }
 
+        if (userMapper.findUserByNickname(userDTO.getNickname()).isPresent()) {
+            throw new BaseException(ErrorMessage.EXIST_NICKNAME);
+        }
+
         if (userMapper.findUserByEmail(userDTO.getEmail()).isPresent()) {
             // 이미 존재하는 이메일
             throw new BaseException(ErrorMessage.EXIST_EMAIL);
