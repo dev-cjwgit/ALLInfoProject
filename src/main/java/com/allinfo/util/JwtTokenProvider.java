@@ -135,7 +135,7 @@ public class JwtTokenProvider {
         } catch (JsonParseException ex) {
             throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID_STRUCT);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new BaseException(ErrorMessage.UNDEFINED_EXCEPTION);
         }
     }
 }

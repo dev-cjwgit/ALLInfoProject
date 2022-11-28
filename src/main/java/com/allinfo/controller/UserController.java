@@ -29,19 +29,13 @@ public class UserController {
     @ApiOperation(value = "회원가입", notes = "req_data : [id, pw, email, name, nickname]")
     @PostMapping("/join")
     public ResponseEntity<?> signup(@RequestBody @Validated(ValidationGroups.signup.class) UserDTO userDTO) {
-        try {
-            UserDTO savedUser = userService.signup(userDTO);
 
-            return new ResponseEntity<Object>(new HashMap<String, Object>() {{
-                put("result", true);
-                put("msg", "회원가입을 성공하였습니다.");
-            }}, HttpStatus.OK);
-        } catch (RuntimeException exception) {
-            return new ResponseEntity<Object>(new HashMap<String, Object>() {{
-                put("result", false);
-                put("msg", "회원가입을 실패하였습니다.");
-            }}, HttpStatus.OK);
-        }
+        UserDTO savedUser = userService.signup(userDTO);
+
+        return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+            put("result", true);
+            put("msg", "회원가입을 성공하였습니다.");
+        }}, HttpStatus.OK);
     }
 
     @ApiOperation(value = "로그인", notes = "req_data : [id, pw]")

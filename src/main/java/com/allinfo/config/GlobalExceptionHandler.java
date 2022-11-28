@@ -15,10 +15,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<?> validationHandler(BaseException e) {
+        Map<String, Object> result = new HashMap<>();
+        if (e.getErrorCode() != 0) {
+            result.put("result", false);
+            result.put("msg", e.getErrorMessage());
+        }
+        return new ResponseEntity<Object>(result, e.getHttpStatus());
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> validationHandler(MethodArgumentNotValidException e) {

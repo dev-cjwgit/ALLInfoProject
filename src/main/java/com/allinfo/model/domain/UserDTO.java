@@ -41,12 +41,17 @@ public class UserDTO implements UserDetails {
     @Pattern(regexp = "^[a-zA-Z가-힣0-9]{1,20}$", groups = {ValidationGroups.signup.class}, message = "별명은 특수문자와 초성은 사용불가능합니다")
     protected String nickname;
 
+    @ApiModelProperty(hidden = true)
     protected String role;
+
+    @ApiModelProperty(hidden = true)
     protected String refresh_token;
 
+    @ApiModelProperty(hidden = true)
     protected String salt;
 
     // 이하 코드는 security 를 위한 용도
+    @ApiModelProperty(hidden = true)
     private Collection<? extends GrantedAuthority> authorities;
 
     @Override
