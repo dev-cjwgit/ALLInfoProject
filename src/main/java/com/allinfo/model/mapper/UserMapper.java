@@ -2,6 +2,7 @@ package com.allinfo.model.mapper;
 
 import com.allinfo.model.domain.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Optional;
 
@@ -15,7 +16,11 @@ public interface UserMapper {
 
     Optional<UserDTO> findUserById(String id);
 
-    void join(UserDTO userDTO);
+    void signup(UserDTO userDTO);
 
     void setRefreshToken(UserDTO userDTO);
+
+    void setSalt(@Param(value = "uid") Long uid, @Param(value = "salt") String salt);
+
+    String getSalt(Long uid);
 }

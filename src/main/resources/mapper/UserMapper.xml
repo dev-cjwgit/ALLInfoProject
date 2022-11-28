@@ -12,7 +12,8 @@
                `name`,
                `nickname`,
                `refresh_token`,
-               `role`
+               `role`,
+               `salt`
         FROM user
         WHERE `id` = #{id}
     </select>
@@ -25,7 +26,8 @@
                `name`,
                `nickname`,
                `refresh_token`,
-               `role`
+               `role`,
+               `salt`
         FROM user
         WHERE `email` = #{email}
     </select>
@@ -38,14 +40,18 @@
                `name`,
                `nickname`,
                `refresh_token`,
-               `role`
+               `role`,
+               `salt`
         FROM user
         WHERE `uid` = #{uid}
     </select>
 
-    <insert id="join" parameterType="UserDTO">
+    <insert id="signup" parameterType="UserDTO">
         INSERT INTO user (`email`, `id`, `pw`, `name`, `nickname`)
         VALUES (#{email}, #{id}, #{pw}, #{name}, #{nickname})
+        <selectKey resultType="long" keyProperty="uid" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <update id="setRefreshToken" parameterType="UserDTO">
@@ -53,4 +59,16 @@
         SET `refresh_token` = #{refresh_token}
         WHERE `uid` = #{uid};
     </update>
+
+    <update id="setSalt">
+        UPDATE user
+        SET `salt` = #{salt}
+        WHERE `uid` = #{uid}
+    </update>
+
+    <select id="getSalt" parameterType="long" resultType="string">
+        SELECT `salt`
+        FROM user
+        WHERE uid = #{uid};
+    </select>
 </mapper>

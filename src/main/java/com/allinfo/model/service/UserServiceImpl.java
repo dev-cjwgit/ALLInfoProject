@@ -5,14 +5,12 @@ import com.allinfo.model.domain.param.LoginDTO;
 import com.allinfo.model.mapper.UserMapper;
 import com.allinfo.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +29,14 @@ public class UserServiceImpl implements UserService {
         }
 
         userDTO.setPw(passwordEncoder.encode(userDTO.getPassword()));
-        userMapper.join(userDTO);
+        userMapper.signup(userDTO);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        String salt = userDTO.getUid().toString() + calendar.getTime();
+
+        salt = (BCrypt.hashpw(salt, BCrypt.gensalt()));
+        userMapper.setSalt(userDTO.getUid(), salt);
 
         return userMapper.findUserById(userDTO.getUsername()).get();
     }
