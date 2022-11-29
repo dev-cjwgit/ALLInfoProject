@@ -15,6 +15,6 @@ public class ValidationGroups {
     public interface board_update extends Default {};
 
     public interface comment_create extends Default {};
-
+    public interface comment_update extends Default {};
 
 }

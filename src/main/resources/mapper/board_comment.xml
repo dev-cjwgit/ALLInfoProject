@@ -28,4 +28,32 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
+
+    <select id="getCommentList" resultType="BoardCommentDTO">
+        SELECT bc.`uid`,
+               bc.`board_uid`,
+               bc.`user_uid`,
+               bc.`body`,
+               bc.`sdate`,
+               bc.`udate`,
+               u.`nickname`
+        FROM board_comment bc
+                 LEFT JOIN user u
+                           ON bc.`user_uid` = u.`uid`
+        WHERE bc.`board_uid` = #{board_uid}
+        ORDER BY `uid` DESC
+            LIMIT ${page.page}, ${page.range};
+    </select>
+
+    <update id="updateComment" parameterType="BoardCommentDTO">
+        UPDATE board_comment
+        SET `body` = #{body}
+        WHERE `uid` = #{uid}
+    </update>
+
+    <delete id="deleteComment" parameterType="long">
+        DELETE
+        FROM board_comment
+        WHERE `uid` = ${comment_uid};
+    </delete>
 </mapper>
