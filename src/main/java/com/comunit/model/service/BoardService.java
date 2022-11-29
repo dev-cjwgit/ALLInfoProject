@@ -12,5 +12,9 @@ public interface BoardService {
 
     Boolean createBoard(BoardDTO board, UserDTO auth) throws Exception;
 
-    List<BoardDTO> getBoardList(Long boardKindUid, Pagination pagination);
+    List<BoardDTO> getBoardList(Long boardKindUid, Pagination pagination) throws Exception;
+
+    BoardDTO getBoardDetail(Long boardUid) throws Exception;
+
+    Integer getBoardListPageInfo(Long boardKindUid, Long pagination);
 }

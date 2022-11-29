@@ -53,6 +53,18 @@ public class BoardController {
         }}, HttpStatus.OK);
     }
 
+    @GetMapping("/page/{board_kind_uid}/{page_ragne}")
+    @ApiOperation(value = "게시판 페이지 정보", notes = "게시판의 페이지 정보를 불러옵니다.")
+    public ResponseEntity<?> getPageInfo(@PathVariable("board_kind_uid") Long boardKindUid,
+                                         @PathVariable("page_ragne") Long range,
+                                         final Authentication authentication) throws Exception {
+
+        return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+            put("result", true);
+            put("data", boardService.getBoardListPageInfo(boardKindUid, range));
+        }}, HttpStatus.OK);
+    }
+
     @GetMapping("/{board_kind_uid}")
     @ApiOperation(value = "모든 게시글 불러오기", notes = "특정 게시판의 모든 게시글을 불러옵니다.")
     public ResponseEntity<?> getAll(@PathVariable("board_kind_uid") Long boardKindUid,
@@ -65,13 +77,15 @@ public class BoardController {
         }}, HttpStatus.OK);
     }
 
-    @GetMapping("/{board_kind_uid}/{board_uid}")
+    @GetMapping("/detail/{board_uid}")
     @ApiOperation(value = "게시글 불러오기", notes = "특정 게시글을 불러옵니다.")
-    public ResponseEntity<?> getOne(@PathVariable("board_kind_uid") Long boardKindUid,
-                                    @PathVariable("board_uid") Long boardUid,
+    public ResponseEntity<?> getOne(@PathVariable("board_uid") Long boardUid,
                                     final Authentication authentication) throws Exception {
 
-        return null;
+        return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+            put("result", true);
+            put("data", boardService.getBoardDetail(boardUid));
+        }}, HttpStatus.OK);
     }
 
     @PatchMapping

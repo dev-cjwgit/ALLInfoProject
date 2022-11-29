@@ -34,4 +34,14 @@ public class BoardServiceImpl implements BoardService {
     public List<BoardDTO> getBoardList(Long boardKindUid, Pagination pagination) {
         return boardMapper.getBoardList(boardKindUid, pagination);
     }
+
+    @Override
+    public BoardDTO getBoardDetail(Long boardUid) throws Exception {
+        return boardMapper.getBoardDetail(boardUid);
+    }
+
+    @Override
+    public Integer getBoardListPageInfo(Long boardKindUid, Long range) {
+        return (int) Math.ceil(boardMapper.getBoardListPageInfo(boardKindUid) * 1.0 / range);
+    }
 }

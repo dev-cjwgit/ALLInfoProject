@@ -35,4 +35,25 @@
             LIMIT ${page.page}, ${page.range};
     </select>
 
+    <select id="getBoardDetail" parameterType="long" resultType="BoardDTO">
+        SELECT b.`uid`,
+               b.`board_kind_uid`,
+               b.`user_uid`,
+               u.`nickname`,
+               b.`title`,
+               b.`body`,
+               (SELECT COUNT(*) FROM board_comment WHERE board_uid = b.`uid`) as `comment_count`,
+               b.`sdate`,
+               b.`udate`
+        FROM board b
+                 LEFT JOIN user u
+                           ON b.`user_uid` = u.`uid`
+        WHERE b.`uid` = #{board_uid};
+    </select>
+
+    <select id="getBoardListPageInfo" resultType="int">
+        SELECT COUNT(*)
+        FROM board b
+        WHERE board_kind_uid = #{board_kind_uid};
+    </select>
 </mapper>
