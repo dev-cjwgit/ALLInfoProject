@@ -12,7 +12,7 @@
                `sdate`,
                `udate`
         FROM board_comment
-        WHERE uid = #{comment_uid};
+        WHERE uid = #{uid};
     </select>
 
     <select id="getCommentListPageInfo" resultType="int">

@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 
 @Data
 public class BoardCommentDTO {
-    @ApiModelProperty(hidden = true)
     private Long uid;
     private Long board_uid;
 
