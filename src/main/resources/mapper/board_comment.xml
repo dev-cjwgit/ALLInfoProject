@@ -4,6 +4,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.comunit.model.mapper.BoardCommentMapper">
+    <select id="getComment" parameterType="long" resultType="BoardCommentDTO">
+        SELECT `uid`,
+               `board_uid`,
+               `user_uid`,
+               `body`,
+               `sdate`,
+               `udate`
+        FROM board_comment
+        WHERE uid = #{comment_uid};
+    </select>
 
+    <select id="getCommentListPageInfo" resultType="int">
+        SELECT COUNT(*)
+        FROM board_comment
+        WHERE board_uid = #{board_uid};
+    </select>
 
+    <insert id="createComment" parameterType="BoardCommentDTO">
+        INSERT INTO board_comment(`board_uid`, `user_uid`, `body`)
+        VALUES (#{board_uid}, #{user_uid}, #{body});
+        <selectKey resultType="long" keyProperty="uid" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
 </mapper>

@@ -48,6 +48,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional
     public Boolean updateBoard(BoardDTO board, UserDTO auth) throws Exception {
         BoardDTO sboard = getBoardDetail(board.getUid());
 
@@ -62,6 +63,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional
     public Boolean deleteBoard(Long boardUid, UserDTO auth) throws Exception {
         BoardDTO sboard = getBoardDetail(boardUid);
 

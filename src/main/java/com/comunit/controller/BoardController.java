@@ -67,9 +67,9 @@ public class BoardController {
 
     @GetMapping("/{board_kind_uid}")
     @ApiOperation(value = "모든 게시글 불러오기", notes = "특정 게시판의 모든 게시글을 불러옵니다.")
-    public ResponseEntity<?> getAll(@PathVariable("board_kind_uid") Long boardKindUid,
-                                    @ModelAttribute Pagination pagination,
-                                    final Authentication authentication) throws Exception {
+    public ResponseEntity<?> selectAll(@PathVariable("board_kind_uid") Long boardKindUid,
+                                       @ModelAttribute Pagination pagination,
+                                       final Authentication authentication) throws Exception {
 
         return new ResponseEntity<Object>(new HashMap<String, Object>() {{
             put("result", true);
