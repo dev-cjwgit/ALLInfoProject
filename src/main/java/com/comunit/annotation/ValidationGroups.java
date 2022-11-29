@@ -11,5 +11,7 @@ public class ValidationGroups {
 
     public interface login extends Default {};
 
-    public interface board extends Default {};
+    public interface board_create extends Default {};
+    public interface board_update extends Default {};
+
 }

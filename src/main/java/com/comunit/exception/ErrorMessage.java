@@ -7,9 +7,10 @@ public enum ErrorMessage {
     UNDEFINED_EXCEPTION(0, "정의되지 않은 에러입니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     BINDING_FAIL_EXCEPTION(1, "내부 서버에서 오류가 발생하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
-    NOT_PERMISSION_EXCEPTION(5, "권한이 없거나 부족합니다.", HttpStatus.UNAUTHORIZED),
+    NOT_PERMISSION_EXCEPTION(5, "권한이 없거나 부족합니다.", HttpStatus.FORBIDDEN),
 
     REQUEST_EXCEPTION(10, "", HttpStatus.BAD_REQUEST),
+    NOT_EXIST_CONTENT(20, "존재하지 않는 컨텐츠입니다.", HttpStatus.BAD_REQUEST),
     NOT_EXIST_ID(100, "서버에 존재하지 않는 아이디입니다.", HttpStatus.BAD_REQUEST),
     NOT_PASSWORD(101, "잘못된 비밀번호입니다.", HttpStatus.BAD_REQUEST),
     DONT_EXIST_ACCOUNT(102, "이미 삭제 된 계정입니다.", HttpStatus.BAD_REQUEST),

@@ -20,4 +20,8 @@ public interface BoardMapper {
     BoardDTO getBoardDetail(Long boardUid);
 
     Integer getBoardListPageInfo(@Param("board_kind_uid") Long boardKindUid);
+
+    void updateBoard(BoardDTO board);
+
+    void deleteBoard(Long boardUid);
 }

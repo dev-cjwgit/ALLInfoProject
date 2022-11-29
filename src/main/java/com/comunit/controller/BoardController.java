@@ -26,10 +26,10 @@ public class BoardController {
 
     @PostMapping
     @ApiOperation(value = "게시글 생성", notes = "게시판에 게시글을 생성합니다.")
-    public ResponseEntity<?> createBoard(@RequestBody @Validated(ValidationGroups.board.class) BoardDTO board,
+    public ResponseEntity<?> createBoard(@RequestBody @Validated(ValidationGroups.board_create.class) BoardDTO board,
                                          final Authentication authentication) throws Exception {
-        UserDTO user = (UserDTO) authentication.getPrincipal();
-        if (boardService.createBoard(board, user)) {
+        UserDTO auth = (UserDTO) authentication.getPrincipal();
+        if (boardService.createBoard(board, auth)) {
             return new ResponseEntity<Object>(new HashMap<String, Object>() {{
                 put("result", true);
                 put("msg", "게시글 등록에 성공하였습니다.");
@@ -90,19 +90,40 @@ public class BoardController {
 
     @PatchMapping
     @ApiOperation(value = "게시글 수정", notes = "게시글을 수정합니다.")
-    public ResponseEntity<?> updateBoard(@RequestBody @Validated(ValidationGroups.board.class) BoardDTO board,
+    public ResponseEntity<?> updateBoard(@RequestBody @Validated(ValidationGroups.board_update.class) BoardDTO board,
                                          final Authentication authentication) throws Exception {
+        UserDTO auth = (UserDTO) authentication.getPrincipal();
 
-        return null;
+        if (boardService.updateBoard(board, auth)) {
+            return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+                put("result", true);
+                put("msg", "수정에 성공하였습니다.");
+            }}, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+                put("result", false);
+                put("msg", "수정에 실패하였습니다.");
+            }}, HttpStatus.OK);
+        }
     }
 
-    @DeleteMapping("/{board_kind_uid}/{board_uid}")
+    @DeleteMapping("{board_uid}")
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제합니다.")
-    public ResponseEntity<?> deleteBoard(@PathVariable("board_kind_uid") Long boardKindUid,
-                                         @PathVariable("board_uid") Long boardUid,
+    public ResponseEntity<?> deleteBoard(@PathVariable("board_uid") Long boardUid,
                                          final Authentication authentication) throws Exception {
+        UserDTO auth = (UserDTO) authentication.getPrincipal();
 
-        return null;
+        if (boardService.deleteBoard(boardUid, auth)) {
+            return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+                put("result", true);
+                put("msg", "삭제에 성공하였습니다.");
+            }}, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+                put("result", false);
+                put("msg", "삭제에 실패하였습니다.");
+            }}, HttpStatus.OK);
+        }
     }
 
 }

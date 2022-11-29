@@ -56,4 +56,19 @@
         FROM board b
         WHERE board_kind_uid = #{board_kind_uid};
     </select>
+
+    <update id="updateBoard" parameterType="BoardDTO">
+        UPDATE board
+        <set>
+            <if test="title != null">title=#{title},</if>
+            <if test="body != null">body=#{body},</if>
+        </set>
+        WHERE uid = #{uid};
+    </update>
+
+    <delete id="deleteBoard" parameterType="long">
+        DELETE
+        FROM board
+        WHERE `uid` = ${board_uid};
+    </delete>
 </mapper>

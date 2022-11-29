@@ -9,10 +9,10 @@ import java.sql.Timestamp;
 
 @Data
 public class BoardDTO {
-    @ApiModelProperty(hidden = true)
+    @NotNull(groups = {ValidationGroups.board_update.class}, message = "게시글 번호는 공백일 수 없습니다.")
     private Long uid;
 
-    @NotNull(groups = {ValidationGroups.board.class}, message = "게시판 번호는 공백일 수 없습니다.")
+    @NotNull(groups = {ValidationGroups.board_create.class}, message = "게시판 번호는 공백일 수 없습니다.")
     private Long board_kind_uid;
 
     @ApiModelProperty(hidden = true)
@@ -24,10 +24,10 @@ public class BoardDTO {
     @ApiModelProperty(hidden = true)
     private Integer comment_count;
 
-    @NotNull(groups = {ValidationGroups.board.class}, message = "제목은 공백일 수 없습니다.")
+    @NotNull(groups = {ValidationGroups.board_create.class, ValidationGroups.board_update.class}, message = "제목은 공백일 수 없습니다.")
     private String title;
 
-    @NotNull(groups = {ValidationGroups.board.class}, message = "내용은 공백일 수 없습니다.")
+    @NotNull(groups = {ValidationGroups.board_create.class, ValidationGroups.board_update.class}, message = "내용은 공백일 수 없습니다.")
     private String body;
 
     @ApiModelProperty(hidden = true)

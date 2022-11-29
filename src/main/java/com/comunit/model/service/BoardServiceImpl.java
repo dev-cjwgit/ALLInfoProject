@@ -1,6 +1,8 @@
 package com.comunit.model.service;
 
 
+import com.comunit.exception.BaseException;
+import com.comunit.exception.ErrorMessage;
 import com.comunit.model.domain.Pagination;
 import com.comunit.model.domain.board.BoardDTO;
 import com.comunit.model.domain.board.BoardKindDTO;
@@ -31,7 +33,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<BoardDTO> getBoardList(Long boardKindUid, Pagination pagination) {
+    public List<BoardDTO> getBoardList(Long boardKindUid, Pagination pagination) throws Exception {
         return boardMapper.getBoardList(boardKindUid, pagination);
     }
 
@@ -41,7 +43,35 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Integer getBoardListPageInfo(Long boardKindUid, Long range) {
+    public Integer getBoardListPageInfo(Long boardKindUid, Long range) throws Exception {
         return (int) Math.ceil(boardMapper.getBoardListPageInfo(boardKindUid) * 1.0 / range);
+    }
+
+    @Override
+    public Boolean updateBoard(BoardDTO board, UserDTO auth) throws Exception {
+        BoardDTO sboard = getBoardDetail(board.getUid());
+
+        if (sboard == null)
+            throw new BaseException(ErrorMessage.NOT_EXIST_CONTENT);
+
+        if (!sboard.getUser_uid().equals(auth.getUid())) {
+            throw new BaseException(ErrorMessage.NOT_PERMISSION_EXCEPTION);
+        }
+        boardMapper.updateBoard(board);
+        return true;
+    }
+
+    @Override
+    public Boolean deleteBoard(Long boardUid, UserDTO auth) throws Exception {
+        BoardDTO sboard = getBoardDetail(boardUid);
+
+        if (sboard == null)
+            throw new BaseException(ErrorMessage.NOT_EXIST_CONTENT);
+
+        if (!sboard.getUser_uid().equals(auth.getUid())) {
+            throw new BaseException(ErrorMessage.NOT_PERMISSION_EXCEPTION);
+        }
+        boardMapper.deleteBoard(boardUid);
+        return true;
     }
 }
