@@ -52,7 +52,8 @@ public class GlobalExceptionHandler {
         t.printStackTrace();
         logger.error(t.getMessage());
 
-        return new ResponseEntity<Object>(new HashMap<String, String>() {{
+        return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+            put("result", false);
             put("msg", "알 수 없는 예외입니다.");
         }}, HttpStatus.INTERNAL_SERVER_ERROR);
 

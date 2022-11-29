@@ -10,4 +10,6 @@ public class ValidationGroups {
     public interface signup extends Default {};
 
     public interface login extends Default {};
+
+    public interface board extends Default {};
 }

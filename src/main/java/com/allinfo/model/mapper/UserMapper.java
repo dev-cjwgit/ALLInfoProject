@@ -1,6 +1,6 @@
 package com.allinfo.model.mapper;
 
-import com.allinfo.model.domain.UserDTO;
+import com.allinfo.model.domain.user.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,6 +1,6 @@
 package com.allinfo.model.service;
 
-import com.allinfo.model.domain.UserDTO;
+import com.allinfo.model.domain.user.UserDTO;
 import com.allinfo.model.domain.param.LoginDTO;
 
 import java.util.Map;

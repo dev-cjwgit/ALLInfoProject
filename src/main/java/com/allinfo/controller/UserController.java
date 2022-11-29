@@ -1,7 +1,7 @@
 package com.allinfo.controller;
 
 import com.allinfo.annotation.ValidationGroups;
-import com.allinfo.model.domain.UserDTO;
+import com.allinfo.model.domain.user.UserDTO;
 import com.allinfo.model.domain.param.LoginDTO;
 import com.allinfo.model.service.UserService;
 import io.swagger.annotations.Api;

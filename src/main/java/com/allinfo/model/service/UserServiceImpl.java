@@ -2,7 +2,7 @@ package com.allinfo.model.service;
 
 import com.allinfo.exception.BaseException;
 import com.allinfo.exception.ErrorMessage;
-import com.allinfo.model.domain.UserDTO;
+import com.allinfo.model.domain.user.UserDTO;
 import com.allinfo.model.domain.param.LoginDTO;
 import com.allinfo.model.mapper.UserMapper;
 import com.allinfo.util.EmailHandler;

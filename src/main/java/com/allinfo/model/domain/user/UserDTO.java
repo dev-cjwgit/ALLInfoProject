@@ -1,4 +1,4 @@
-package com.allinfo.model.domain;
+package com.allinfo.model.domain.user;
 
 import com.allinfo.annotation.ValidationGroups;
 import io.swagger.annotations.ApiModel;

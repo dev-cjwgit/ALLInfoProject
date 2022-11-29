@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.allinfo.model.mapper.BoardMapper">
+    <select id="getBoard" resultType="BoardKindDTO">
+        SELECT `uid`, `title`
+        FROM board_kind
+        ORDER BY uid ASC;
+    </select>
+
+    <insert id="createBoard" parameterType="BoardDTO">
+        INSERT INTO board(`board_kind_uid`, `user_uid`, `title`, `body`)
+        VALUES (#{board_kind_uid}, #{user_uid}, #{title}, #{body});
+        <selectKey resultType="long" keyProperty="uid" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getBoardList" resultType="BoardDTO">
+        SELECT b.`uid`,
+               b.`board_kind_uid`,
+               b.`user_uid`,
+               u.`nickname`,
+               b.`title`,
+               b.`body`,
+               b.`sdate`,
+               b.`udate`
+        FROM board b
+                 LEFT JOIN user u
+                           ON b.`user_uid` = u.`uid`
+        WHERE board_kind_uid = #{board_kind_uid}
+        ORDER BY `uid` DESC
+            LIMIT ${page.page}, ${page.range};
+    </select>
+
+</mapper>
