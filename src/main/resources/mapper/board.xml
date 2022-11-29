@@ -24,7 +24,7 @@
                b.`user_uid`,
                u.`nickname`,
                b.`title`,
-               b.`body`,
+               (SELECT COUNT(*) FROM board_comment WHERE board_uid = b.`uid`) as `comment_count`,
                b.`sdate`,
                b.`udate`
         FROM board b

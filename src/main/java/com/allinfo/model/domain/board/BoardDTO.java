@@ -22,6 +22,9 @@ public class BoardDTO {
     @ApiModelProperty(hidden = true)
     private String nickname;
 
+    @ApiModelProperty(hidden = true)
+    private Integer comment_count;
+
     @NotNull(groups = {ValidationGroups.board.class}, message = "제목은 공백일 수 없습니다.")
     private String title;
 
