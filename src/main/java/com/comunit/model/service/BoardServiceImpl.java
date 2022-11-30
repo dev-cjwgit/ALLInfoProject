@@ -43,6 +43,17 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional
+    public BoardDTO getBoardDetail(Long boardUid, UserDTO auth) throws Exception {
+        if (boardMapper.isExistView(boardUid, auth.getUid()) == 1) {
+            boardMapper.createView(boardUid, auth.getUid());
+        }else{
+            boardMapper.updateView(boardUid, auth.getUid());
+        }
+        return getBoardDetail(boardUid);
+    }
+
+    @Override
     public Integer getBoardListPageInfo(Long boardKindUid, Long range) throws Exception {
         return (int) Math.ceil(boardMapper.getBoardListPageInfo(boardKindUid) * 1.0 / range);
     }

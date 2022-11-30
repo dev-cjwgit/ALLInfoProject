@@ -81,10 +81,11 @@ public class BoardController {
     @ApiOperation(value = "게시글 불러오기", notes = "특정 게시글을 불러옵니다.")
     public ResponseEntity<?> getOne(@PathVariable("board_uid") Long boardUid,
                                     final Authentication authentication) throws Exception {
+        UserDTO auth = (UserDTO) authentication.getPrincipal();
 
         return new ResponseEntity<Object>(new HashMap<String, Object>() {{
             put("result", true);
-            put("data", boardService.getBoardDetail(boardUid));
+            put("data", boardService.getBoardDetail(boardUid, auth));
         }}, HttpStatus.OK);
     }
 

@@ -24,4 +24,10 @@ public interface BoardMapper {
     void updateBoard(BoardDTO board);
 
     void deleteBoard(Long boardUid);
+
+    void createView(@Param("board_uid")Long board_uid, @Param("user_uid")Long user_uid);
+
+    void updateView(@Param("board_uid")Long board_uid, @Param("user_uid")Long user_uid);
+
+    int isExistView(@Param("board_uid")Long board_uid, @Param("user_uid")Long user_uid);
 }

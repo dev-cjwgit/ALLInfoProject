@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,5 +92,16 @@ public class UserController {
                     put("msg", "이메일 인증에 성공하였습니다.");
                 }}, HttpStatus.OK
         );
+    }
+
+
+    @ApiOperation(value = "회원 확인", notes = "회원정보를 반환합니다.")
+    @GetMapping("/auth")
+    public ResponseEntity<?> authUser(final Authentication authentication) {
+        UserDTO auth = (UserDTO) authentication.getPrincipal();
+        return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+            put("result", true);
+            put("data", auth);
+        }}, HttpStatus.OK);
     }
 }

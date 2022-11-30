@@ -25,6 +25,7 @@
                u.`nickname`,
                b.`title`,
                (SELECT COUNT(*) FROM board_comment WHERE board_uid = b.`uid`) as `comment_count`,
+               (SELECT SUM(`view`) FROM board_view WHERE board_uid = b.`uid`) as `view_count`,
                b.`sdate`,
                b.`udate`
         FROM board b
@@ -43,6 +44,7 @@
                b.`title`,
                b.`body`,
                (SELECT COUNT(*) FROM board_comment WHERE board_uid = b.`uid`) as `comment_count`,
+               (SELECT SUM(`view`) FROM board_view WHERE board_uid = b.`uid`) as `view_count`,
                b.`sdate`,
                b.`udate`
         FROM board b
@@ -71,4 +73,19 @@
         FROM board
         WHERE `uid` = ${board_uid};
     </delete>
+
+    <select id="isExistView" resultType="int">
+        SELECT EXISTS(SELECT 1 FROM board_view WHERE board_uid = #{board_uid} AND user_uid = #{user_uid});
+    </select>
+
+    <insert id="createView">
+        INSERT INTO board_view(`board_uid`,`user_uid`)
+        VALUES(#{board_uid}, #{user_uid});
+    </insert>
+
+    <update id="updateView">
+        UPDATE board_view
+        SET `view` = `view` + 1
+        WHERE board_uid = #{board_uid} AND user_uid = #{user_uid}
+    </update>
 </mapper>
