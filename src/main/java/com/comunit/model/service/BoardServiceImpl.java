@@ -45,7 +45,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public BoardDTO getBoardDetail(Long boardUid, UserDTO auth) throws Exception {
-        if (boardMapper.isExistView(boardUid, auth.getUid()) == 1) {
+        if (boardMapper.isExistView(boardUid, auth.getUid()) != 1) {
             boardMapper.createView(boardUid, auth.getUid());
         }else{
             boardMapper.updateView(boardUid, auth.getUid());
