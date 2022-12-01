@@ -41,7 +41,7 @@
                  LEFT JOIN user u
                            ON bc.`user_uid` = u.`uid`
         WHERE bc.`board_uid` = #{board_uid}
-        ORDER BY `uid` DESC
+        ORDER BY `uid` ASC
             LIMIT ${page.page}, ${page.range};
     </select>
 
