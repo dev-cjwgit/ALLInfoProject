@@ -104,4 +104,14 @@ public class UserController {
             put("data", auth);
         }}, HttpStatus.OK);
     }
+
+    @ApiOperation(value = "비밀번호 찾기", notes = "회원의 임시 비밀번호를 메일로 전송합니다.")
+    @PostMapping("/find/password")
+    public ResponseEntity<?> findMyPW(@RequestBody @Validated(ValidationGroups.find_password.class) UserDTO user) throws Exception {
+        userService.findMyPW(user);
+        return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+            put("result", true);
+            put("msg", "이메일로 임시 비밀번호를 발급하였습니다.");
+        }}, HttpStatus.OK);
+    }
 }

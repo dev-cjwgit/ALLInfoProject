@@ -17,4 +17,6 @@ public class ValidationGroups {
     public interface comment_create extends Default {};
     public interface comment_update extends Default {};
 
+    public interface find_password extends Default {};
+
 }

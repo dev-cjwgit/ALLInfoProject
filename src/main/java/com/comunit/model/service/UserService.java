@@ -18,4 +18,6 @@ public interface UserService {
     void resendCheckMail(LoginDTO loginDTO) throws Exception;
 
     void checkEmail(String token) throws Exception;
+
+    void findMyPW(UserDTO user) throws Exception;
 }

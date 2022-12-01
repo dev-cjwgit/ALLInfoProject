@@ -24,7 +24,9 @@ public interface UserMapper {
 
     String getSalt(Long uid);
 
-    void checkEmail(Long uid)  throws Exception;
+    void checkEmail(Long uid) throws Exception;
+
+    void setPassword(@Param(value = "email") String email, @Param(value = "pw") String pw);
 
     Optional<UserDTO> findUserByNickname(String nickname);
 }

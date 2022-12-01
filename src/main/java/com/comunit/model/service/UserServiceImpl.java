@@ -129,4 +129,32 @@ public class UserServiceImpl implements UserService {
             throw new BaseException(ErrorMessage.ACCESS_TOKEN_INVALID);
         }
     }
+
+    @Override
+    public void findMyPW(UserDTO user) throws Exception {
+        UserDTO suser = userMapper.findUserByEmail(user.getEmail()).get();
+
+        if (suser != null) {
+            if (suser.getId().equals(user.getId()) && suser.getName().equals(user.getName())) {
+                Random rnd = new Random();
+                StringBuilder temp_pw = new StringBuilder();
+                for (int i = 0; i < 20; i++) {
+                    if (rnd.nextBoolean()) {
+                        temp_pw.append((char) ((int) (rnd.nextInt(26)) + 97));
+                    } else {
+                        temp_pw.append((rnd.nextInt(10)));
+
+                    }
+                }
+                String epw = passwordEncoder.encode(temp_pw);
+                userMapper.setPassword(user.getEmail(), epw);
+
+                emailHandler.sendMail(user.getEmail(), "임시 비밀번호입니다.", "임시 비밀번호는 " + temp_pw + " 입니다.", false);
+            } else {
+                throw new BaseException(ErrorMessage.NOT_USER_INFO_MATCH);
+            }
+        } else {
+            throw new BaseException(ErrorMessage.NOT_USER_INFO);
+        }
+    }
 }

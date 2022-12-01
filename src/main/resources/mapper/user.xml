@@ -96,4 +96,10 @@
         SET `level` = 1
         WHERE `uid` = #{uid};
     </update>
+
+    <update id="setPassword">
+        UPDATE user
+        SET `pw` = #{pw}
+        WHERE `email` =#{email};
+    </update>
 </mapper>
