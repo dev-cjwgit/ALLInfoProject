@@ -32,7 +32,7 @@ public class BoardCommentServiceImpl implements BoardCommentService {
     }
 
     @Override
-    public Integer getBoardListPageInfo(Long board_uid, Long range) throws Exception {
+    public Integer getCommentListPageInfo(Long board_uid, Long range) throws Exception {
         return (int) Math.ceil(boardCommentMapper.getCommentListPageInfo(board_uid) * 1.0 / range);
     }
 

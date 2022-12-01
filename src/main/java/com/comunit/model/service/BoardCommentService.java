@@ -17,5 +17,5 @@ public interface BoardCommentService {
 
     Boolean deleteComment(Long commentUid, UserDTO auth);
 
-    Integer getBoardListPageInfo(Long boardKindUid, Long range) throws Exception;
+    Integer getCommentListPageInfo(Long boardKindUid, Long range) throws Exception;
 }

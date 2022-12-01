@@ -92,4 +92,15 @@ public class BoardCommentController {
             }}, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/page/{board_uid}/{page_ragne}")
+    @ApiOperation(value = "게시판 페이지 정보", notes = "게시판의 페이지 정보를 불러옵니다.")
+    public ResponseEntity<?> getPageInfo(@PathVariable("board_uid") Long boardUid,
+                                         @PathVariable("page_ragne") Long range,
+                                         final Authentication authentication) throws Exception {
+        return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+            put("result", true);
+            put("data", boardCommentService.getCommentListPageInfo(boardUid, range));
+        }}, HttpStatus.OK);
+    }
 }
