@@ -8,6 +8,7 @@ public class ValidationGroups {
     }
 
     public interface signup extends Default {};
+    public interface mypage extends Default {};
 
     public interface login extends Default {};
 

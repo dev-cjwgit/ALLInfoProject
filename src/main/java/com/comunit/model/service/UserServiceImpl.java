@@ -2,6 +2,7 @@ package com.comunit.model.service;
 
 import com.comunit.exception.BaseException;
 import com.comunit.exception.ErrorMessage;
+import com.comunit.model.domain.user.MypageDTO;
 import com.comunit.model.domain.user.UserDTO;
 import com.comunit.model.domain.param.LoginDTO;
 import com.comunit.model.mapper.UserMapper;
@@ -72,6 +73,7 @@ public class UserServiceImpl implements UserService {
         userDto.setRefresh_token(refreshToken);
         userMapper.setRefreshToken(userDto);
         return new HashMap<String, Object>() {{
+            put("name", userDto.getName());
             put("access-token", accessToken);
             put("refresh-token", refreshToken);
             put("uid", userDto.getUid());
@@ -156,5 +158,23 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new BaseException(ErrorMessage.NOT_USER_INFO);
         }
+    }
+
+    @Override
+    public UserDTO getMypage(Long user_Uid) {
+        return userMapper.getMypage(user_Uid);
+    }
+
+    @Override
+    @Transactional
+    public Boolean setMypage(MypageDTO user, UserDTO auth) {
+        if (!passwordEncoder.matches(user.getPw(), auth.getPassword())) {
+            throw new BaseException(ErrorMessage.NOT_PASSWORD);
+        }
+        user.setUid(auth.getUid());
+        user.setNpw(passwordEncoder.encode(user.getNpw()));
+
+        userMapper.setMypage(user);
+        return true;
     }
 }

@@ -1,6 +1,7 @@
 package com.comunit.controller;
 
 import com.comunit.annotation.ValidationGroups;
+import com.comunit.model.domain.user.MypageDTO;
 import com.comunit.model.domain.user.UserDTO;
 import com.comunit.model.domain.param.LoginDTO;
 import com.comunit.model.service.UserService;
@@ -23,6 +24,30 @@ import java.util.Map;
 @RestController
 public class UserController {
     private final UserService userService;
+
+    @ApiOperation(value = "회원 정보", notes = "마이페이지 정보를 가져옵니다.")
+    @GetMapping("/mypage")
+    public ResponseEntity<?> getMypage(final Authentication authentication) {
+        UserDTO auth = (UserDTO) authentication.getPrincipal();
+
+        return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+            put("result", true);
+            put("data", userService.getMypage(auth.getUid()));
+        }}, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "회원 정보", notes = "마이페이지 정보를 수정합니다.")
+    @PostMapping("/mypage")
+    public ResponseEntity<?> setMypage(
+            @RequestBody @Validated(ValidationGroups.mypage.class) MypageDTO user,
+            final Authentication authentication) {
+        UserDTO auth = (UserDTO) authentication.getPrincipal();
+        userService.setMypage(user, auth);
+        return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+            put("result", true);
+            put("msg", "정보를 수정하였습니다.");
+        }}, HttpStatus.OK);
+    }
 
     @ApiOperation(value = "회원가입", notes = "req_data : [id, pw, email, name, nickname]")
     @PostMapping("/signup")
@@ -47,6 +72,8 @@ public class UserController {
             put("access-token", token.get("access-token"));
             put("refresh-token", token.get("refresh-token"));
             put("uid", token.get("uid"));
+            put("name", token.get("name"));
+
         }}, HttpStatus.OK);
     }
 

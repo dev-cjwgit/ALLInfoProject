@@ -100,6 +100,24 @@
     <update id="setPassword">
         UPDATE user
         SET `pw` = #{pw}
-        WHERE `email` =#{email};
+        WHERE `email` = #{email};
+    </update>
+
+    <select id="getMypage" parameterType="long" resultType="UserDTO">
+        SELECT uid,
+               email,
+               id,
+               name,
+               nickname,
+               sdate
+        FROM user
+        WHERE uid = #{uid};
+    </select>
+
+    <update id="setMypage" parameterType="MypageDTO">
+        UPDATE user
+        SET `pw`       = #{npw},
+            `nickname` = #{nickname}
+        WHERE `uid` = #{uid};
     </update>
 </mapper>

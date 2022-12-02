@@ -1,5 +1,6 @@
 package com.comunit.model.mapper;
 
+import com.comunit.model.domain.user.MypageDTO;
 import com.comunit.model.domain.user.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -29,4 +30,8 @@ public interface UserMapper {
     void setPassword(@Param(value = "email") String email, @Param(value = "pw") String pw);
 
     Optional<UserDTO> findUserByNickname(String nickname);
+
+    UserDTO getMypage(Long user_uid);
+
+    void setMypage(MypageDTO user);
 }

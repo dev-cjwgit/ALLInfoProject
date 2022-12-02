@@ -1,5 +1,6 @@
 package com.comunit.model.service;
 
+import com.comunit.model.domain.user.MypageDTO;
 import com.comunit.model.domain.user.UserDTO;
 import com.comunit.model.domain.param.LoginDTO;
 
@@ -20,4 +21,8 @@ public interface UserService {
     void checkEmail(String token) throws Exception;
 
     void findMyPW(UserDTO user) throws Exception;
+
+    UserDTO getMypage(Long user_uid);
+
+    Boolean setMypage(MypageDTO user, UserDTO auth);
 }
