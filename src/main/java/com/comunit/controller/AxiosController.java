@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.ws.Response;
 import java.util.HashMap;
 
 @Api(value = "Axios Controller")
@@ -27,6 +28,16 @@ public class AxiosController {
 
         return new ResponseEntity<Object>(new HashMap<String, Object>() {{
             put("result", axiosService.signupRules(keyword, word));
+        }}, HttpStatus.OK);
+    }
+
+
+    @ApiOperation(value = "댓글 개수", notes = "댓글 개수를 받아옵니다.")
+    @GetMapping("/board/{board_uid}")
+    public ResponseEntity<?> getBoardCommentCount(@PathVariable("board_uid") Long board_uid) {
+        return new ResponseEntity<Object>(new HashMap<String, Object>() {{
+            put("result", true);
+            put("data", axiosService.getBoardCommentCount(board_uid));
         }}, HttpStatus.OK);
     }
 }

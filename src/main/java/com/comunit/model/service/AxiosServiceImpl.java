@@ -23,4 +23,9 @@ public class AxiosServiceImpl implements AxiosService {
         }
         throw new BaseException(ErrorMessage.UNDEFINED_EXCEPTION);
     }
+
+    @Override
+    public Integer getBoardCommentCount(Long board_uid) {
+        return axiosMapper.getBoardCommentCount(board_uid);
+    }
 }

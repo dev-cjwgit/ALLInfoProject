@@ -7,4 +7,8 @@
     <select id="signupRules" resultType="int">
         SELECT EXISTS(SELECT 1 FROM user WHERE ${keyword} = #{word});
     </select>
+
+    <select id="getBoardCommentCount" resultType="int">
+        SELECT COUNT(*) FROM board_comment WHERE board_uid = #{board_uid};
+    </select>
 </mapper>
