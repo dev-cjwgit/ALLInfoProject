@@ -24,7 +24,7 @@ public class UserDTO implements UserDetails {
     @Pattern(regexp = "^[a-zA-Z0-9]{6,20}$", groups = {ValidationGroups.signup.class, ValidationGroups.find_password.class}, message = "아이디는 특수문자와 초성, 한글은 사용불가능합니다")
     protected String id;
 
-    @NotNull(groups = {ValidationGroups.signup.class}, message = "비밀번호는 공백일 수 없습니다.")
+    @NotNull(groups = {ValidationGroups.signup.class, ValidationGroups.login.class}, message = "비밀번호는 공백일 수 없습니다.")
     @Size(min = 8, max = 30, groups = {ValidationGroups.signup.class}, message = "비밀번호는은 8글자 이상 30글자 이하입니다.")
     protected String pw;
 
