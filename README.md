@@ -4,6 +4,9 @@
 https://github.com/hyeonslove/ComunitProject
 
 Spring Security + JWT
+
 MyBatis
+
 Spring Boot
+
 email check service
