@@ -55,7 +55,7 @@ public class BoardCommentController {
         }}, HttpStatus.OK);
     }
 
-    @PutMapping("/{board_uid}")
+    @PutMapping()
     @ApiOperation(value = "댓글 수정하기", notes = "댓글을 수정합니다.")
     public ResponseEntity<?> updateComment(@RequestBody @Validated(ValidationGroups.comment_update.class) BoardCommentDTO commentDTO,
                                            final Authentication authentication) throws Exception {
