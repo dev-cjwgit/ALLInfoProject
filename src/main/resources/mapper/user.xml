@@ -39,12 +39,12 @@
         SELECT `uid`,
                `email`,
                `id`,
-               `pw`,
+--                `pw`,
                `name`,
                `nickname`,
-               `refresh_token`,
+--                `refresh_token`,
                `role`,
-               `salt`,
+--                `salt`,
                `level`
         FROM user
         WHERE `uid` = #{uid}
